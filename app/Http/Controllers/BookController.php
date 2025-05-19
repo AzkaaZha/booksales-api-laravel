@@ -13,9 +13,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        $data = new Book();
-        $books = Book::all();
-        return view('books.index', compact('books'));
+        $books = Book::with('author', 'genre')->get();
+        return response()->json([
+            'status' => 'Data berhasil ditampilkan',
+            'data' => $books
+        ], 200);
     }
 
     /**

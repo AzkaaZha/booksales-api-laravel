@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 class AuthorController extends Controller
 {
     public function index(){
-        $data = new Author();
         $authors = Author::all();
-        
-        return view('authors.index', compact('authors'));
+        return response()->json([
+            'status' => 'Data berhasil ditampilkan',
+            'data' => $authors
+        ], 200);
     }
 }
