@@ -1,5 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
+// routes/web.php
 require base_path('routes/api.php');
+
