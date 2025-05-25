@@ -18,17 +18,54 @@ class GenreController extends Controller
     public function store(Request $request){
         $request->validate([
             'name' => 'required|string',
-            'description => required'
+            'description => text'
         ]);
 
-        $genre = Genre::create([
+        $genres = Genre::create([
             'name' => $request->name,
             'description' => $request->description
         ]);
         
         return response()->json([
             'status' => 'Data berhasil ditambahkan',
-            'data' => $genre
+            'data' => $genres
         ], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $genres = Genre::find($id);
+        if (!$genres) {
+            return response()->json(['message' => 'Genre not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $genres->update($validated);
+        return response()->json($genres);
+    }
+
+    public function show($id)
+    {
+        $genres = Genre::find($id);
+        if (!$genres) {
+            return response()->json(['message' => 'Genre not found'], 404);
+        }
+        return $genres;
+    }
+
+    public function destroy($id)
+    {
+        $genres = Genre::find($id);
+        if (!$genres) {
+            return response()->json(['message' => 'Genre not found'], 404);
+        }
+
+        $genres->delete();
+        return response()->json(['message' => 'Genre deleted']);
+    }
+
+    
 }

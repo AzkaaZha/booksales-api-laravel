@@ -22,10 +22,49 @@ class AuthorController extends Controller
             'bio'
         ]);
 
-        $author = Author::create($request->all());
+        $authors = Author::create($request->all());
         return response()->json([
             'status' => 'Data berhasil ditambahkan',
-            'data' => $author
+            'data' => $authors
         ], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $authors = Author::find($id);
+        if (!$authors) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'photo',
+            'bio'
+        ]);
+
+        $authors->update($validated);
+        return response()->json($authors);
+    }
+
+    public function show($id)
+    {
+        $authors = Author::find($id);
+        if (!$authors) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+        return $authors;
+    }
+
+    public function destroy($id)
+    {
+        $authors = Author::find($id);
+        if (!$authors) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        $authors->delete();
+        return response()->json(['message' => 'Author deleted']);
+    }
+
+    
 }
