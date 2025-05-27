@@ -18,7 +18,7 @@ class GenreController extends Controller
     public function store(Request $request){
         $request->validate([
             'name' => 'required|string',
-            'description => text'
+            'description' => 'required|string'
         ]);
 
         $genres = Genre::create([
@@ -31,6 +31,7 @@ class GenreController extends Controller
             'data' => $genres
         ], 201);
     }
+
 
     public function update(Request $request, $id)
     {
